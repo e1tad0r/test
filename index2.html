@@ -1,0 +1,422 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweetie Fox • 18+</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+            --bg:#2f1400;
+            --orange:#ff8800;
+            --pink:#ff3399;
+        }
+
+        /* SVG паттерны для текстуры шерстки */
+        @supports (background-image: url('data:image/svg+xml')) {
+            svg.fur-pattern {
+                display: none;
+            }
+        }
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:'Montserrat',sans-serif;
+            background:linear-gradient(135deg,#2f1400 0%,#4a2200 45%,#3a1a2b 100%);
+            color:#fff;
+            min-height:100vh;
+            padding:35px 20px;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            position:relative;
+            overflow-x:hidden;
+        }
+
+        .floating{
+            position:fixed;
+            inset:0;
+            pointer-events:none;
+            z-index:0;
+        }
+
+        .float{
+            position:absolute;
+            font-size:2.3rem;
+            animation:floatUp 15s linear infinite;
+            opacity:0;
+        }
+
+        @keyframes floatUp{
+            0%{
+                transform:translateY(110vh) rotate(0deg);
+                opacity:0;
+            }
+            15%{
+                opacity:.9;
+            }
+            85%{
+                opacity:.9;
+            }
+            100%{
+                transform:translateY(-100px) rotate(720deg);
+                opacity:0;
+            }
+        }
+
+        .profile-container{
+            position:relative;
+            margin-bottom:20px;
+            z-index:2;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+        }
+
+        .avatar-wrapper{
+            position:relative;
+            width:170px;
+            height:175px;
+            margin-bottom:10px;
+        }
+
+        /* =========================
+           ОСТРЫЕ ВЫТЯНУТЫЕ ЛИСЬИ УШКИ
+        ========================== */
+
+        .fox-ears{
+            position:absolute;
+            top:-20px;
+            left:50%;
+            transform:translateX(-50%);
+            width:170px;
+            height:90px;
+            z-index:1;
+            pointer-events:none;
+        }
+
+        .fox-ear{
+            position:absolute;
+            width:58px;
+            height:65px;
+        }
+
+        /* Левое ушко */
+        .fox-ear.left{
+            left:12px;
+            transform:rotate(-30deg);
+        }
+
+        /* Правое ушко */
+        .fox-ear.right{
+            right:12px;
+            transform:rotate(30deg);
+        }
+
+        /* ������� ����� ���� - ����������� � ���� ������ */
+        .ear-shape{
+            position:absolute;
+            inset:0;
+            background: 
+                repeating-linear-gradient(0deg,
+                    rgba(0,0,0,0.1) 0px,
+                    rgba(0,0,0,0.1) 2px,
+                    transparent 2px,
+                    transparent 4px
+                ),
+                linear-gradient(135deg, #ffaa55 0%, #ff8800 40%, #dd5500 100%);
+            clip-path: polygon(50% 0%, 95% 75%, 85% 100%, 15% 100%, 5% 75%);
+            box-shadow: 
+                -5px 2px 10px rgba(0,0,0,0.4),
+                inset -6px 0 10px rgba(0,0,0,0.2);
+        }
+
+        /* ��� */
+        .ear-shape::after{
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 16px;
+            width: 14px;
+            height: 18px;
+            background: radial-gradient(ellipse at 30% 25%, rgba(255,240,180,0.5) 0%, transparent 70%);
+            filter: blur(4px);
+        }
+
+        /* ��������� ������� ��� */
+        .ear-inner{
+            position:absolute;
+            left:8px;
+            top:6px;
+            width:42px;
+            height:62px;
+            background: 
+                repeating-linear-gradient(0deg,
+                    rgba(0,0,0,0.09) 0px,
+                    rgba(0,0,0,0.09) 2px,
+                    transparent 2px,
+                    transparent 4px
+                ),
+                linear-gradient(to bottom, #fef9f5 0%, #ffe8d5 45%, #ffd9b8 100%);
+            clip-path: polygon(50% 3%, 88% 70%, 78% 100%, 22% 100%, 12% 70%);
+            box-shadow: 
+                inset 0 1px 4px rgba(255,255,255,0.8),
+                inset -2px 0 5px rgba(0,0,0,0.08);
+        }
+
+        /* �������� ������� ���� ������ - ����� */
+        .ear-accent{
+            display: none;
+        }
+
+        /* ����� ����� ������ */
+        .ear-tip{
+            position:absolute;
+            top:-5px;
+            left:50%;
+            transform: translateX(-50%);
+            width:0;
+            height:0;
+            border-left: 11px solid transparent;
+            border-right: 11px solid transparent;
+            border-bottom: 12px solid #3a2545;
+            z-index: 3;
+            filter: drop-shadow(-1px 1px 3px rgba(0,0,0,0.6));
+        }
+
+        .profile-img{
+            width:148px;
+            height:148px;
+            border-radius:50%;
+            border:5px solid var(--orange);
+            box-shadow:
+                0 0 35px #ff8800,
+                0 0 60px rgba(255,51,153,.3);
+            object-fit:cover;
+            position:absolute;
+            left:50%;
+            bottom:0;
+            transform:translateX(-50%);
+            z-index:2;
+            background-color:var(--bg);
+        }
+
+        h1{
+            font-size:2.25rem;
+            font-weight:700;
+            margin-top:8px;
+            background: linear-gradient(90deg, #ffaa33, #ff3399);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            text-align:center;
+        }
+
+        .badge-18{
+            display:inline-block;
+            background:#ff1a1a;
+            color:white;
+            font-size:.98rem;
+            font-weight:700;
+            padding:6px 22px;
+            border-radius:30px;
+            margin-top:8px;
+            box-shadow: 0 4px 15px rgba(255,26,26,.4);
+        }
+
+        .content-container{
+            width:100%;
+            max-width:420px;
+            z-index:2;
+        }
+
+        .section-title{
+            text-align:center;
+            font-size:1.1rem;
+            font-weight:600;
+            color:#ffaa33;
+            margin:25px 0 15px 0;
+            text-transform:uppercase;
+            letter-spacing:1px;
+        }
+
+        .btn{
+            background:rgba(255,255,255,.085);
+            backdrop-filter:blur(14px);
+            -webkit-backdrop-filter:blur(14px);
+            border:1px solid rgba(255,136,0,.3);
+            padding:16px 22px;
+            border-radius:20px;
+            display:flex;
+            align-items:center;
+            gap:16px;
+            font-size:1.05rem;
+            font-weight:600;
+            text-decoration:none;
+            color:white;
+            margin-bottom:13px;
+            transition:.3s ease;
+            cursor:pointer;
+            width:100%;
+        }
+
+        .btn:hover{
+            transform:translateY(-4px);
+            background:rgba(255,136,0,.15);
+            border-color:#ff8800;
+            box-shadow: 0 8px 25px rgba(255,136,0,.3);
+        }
+
+        .icon-box{
+            width:42px;
+            height:42px;
+            border-radius:14px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            flex-shrink:0;
+            font-size:1.15rem;
+            background:rgba(255,255,255,.08);
+            border:1px solid rgba(255,255,255,.06);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 4px 12px rgba(0,0,0,.18);
+        }
+
+        .toast{
+            position:fixed;
+            bottom:30px;
+            left:50%;
+            transform: translateX(-50%) translateY(100px);
+            background:#ffaa33;
+            color:#2f1400;
+            padding:14px 28px;
+            border-radius:30px;
+            font-weight:700;
+            box-shadow: 0 10px 25px rgba(255,170,51,.4);
+            transition: transform .4s cubic-bezier(.175,.885,.32,1.275);
+            opacity:0;
+            z-index:1000;
+            pointer-events:none;
+        }
+
+        .toast.show{
+            transform: translateX(-50%) translateY(0);
+            opacity:1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="floating">
+        <div class="float" style="left:10%; animation-delay:0s; color:#ff7700">🦊</div>
+        <div class="float" style="left:28%; animation-delay:2s; color:#ff3399">🍑</div>
+        <div class="float" style="left:47%; animation-delay:1s; color:#ff5500">❤️‍🔥</div>
+        <div class="float" style="left:68%; animation-delay:3.5s; color:#ffaa33">💦</div>
+        <div class="float" style="left:85%; animation-delay:0.8s; color:#ff3399">🍒</div>
+    </div>
+
+    <div class="profile-container">
+
+        <div class="avatar-wrapper">
+
+            <div class="fox-ears">
+
+                <div class="fox-ear left">
+                    <div class="ear-shape"></div>
+                    <div class="ear-inner"></div>
+                    <div class="ear-accent"></div>
+                    <div class="ear-tip"></div>
+                </div>
+
+                <div class="fox-ear right">
+                    <div class="ear-shape"></div>
+                    <div class="ear-inner"></div>
+                    <div class="ear-accent"></div>
+                    <div class="ear-tip"></div>
+                </div>
+
+            </div>
+
+            <img src="logo.jpg" alt="Sweetie Fox" class="profile-img">
+
+        </div>
+
+        <h1>Sweetie Fox</h1>
+        <div class="badge-18">18+ 🔥</div>
+
+    </div>
+
+    <div class="content-container">
+
+        <a href="https://t.me/sweetiefox_fox" class="btn" target="_blank">
+            <span class="icon-box" style="color:#38bdf8">
+                <i class="fa-brands fa-telegram"></i>
+            </span>
+            Telegram
+        </a>
+
+        <a href="https://www.pornhub.com/model/sweetie-fox" class="btn" target="_blank">
+            <span class="icon-box" style="color:#ff9000">
+                <i class="fa-brands fa-pornhub"></i>
+            </span>
+            Pornhub
+        </a>
+
+        <a href="https://onlyfans.com/SWEETIEFOX_OF" class="btn" target="_blank">
+            <span class="icon-box" style="color:#ff4fc3">
+                <i class="fa-brands fa-patreon"></i>
+            </span>
+            OnlyFans
+        </a>
+
+        <a href="https://www.instagram.com/swfx_real/" class="btn" target="_blank">
+            <span class="icon-box" style="color:#e4405f">
+                <i class="fa-brands fa-instagram"></i>
+            </span>
+            Instagram
+        </a>
+
+        <a href="https://www.tiktok.com/@sweetiefox" class="btn" target="_blank">
+            <span class="icon-box" style="color:#25f4ee">
+                <i class="fa-brands fa-tiktok"></i>
+            </span>
+            TikTok
+        </a>
+
+        <div class="section-title">Поддержать лисичку 💸</div>
+
+        <div class="btn" onclick="copyCard()">
+            <span class="icon-box" style="color:#ffd700">
+                <i class="fa-solid fa-credit-card"></i>
+            </span>
+            Карта • 4073 4200 4799 5760
+        </div>
+
+    </div>
+
+    <div id="toast" class="toast">Скопировано ✓</div>
+
+    <script>
+        function copyCard(){
+            navigator.clipboard.writeText("4073420047995760")
+                .then(() => {
+                    const toast = document.getElementById('toast');
+                    toast.textContent = "Номер карты скопирован!";
+                    toast.classList.add('show');
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 2300);
+                })
+                .catch(err => console.error('Failed to copy: ', err));
+        }
+    </script>
+
+</body>
+</html>
